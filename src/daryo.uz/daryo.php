@@ -101,12 +101,12 @@ for ($i = (count($contents) - 1); $i >= 0; $i--) {
 
         $lastID = $db->lastInsertId();
         
-        array_map(function ($category_id) use ($db, $lastID) {
+        foreach ($categories as $section) {
             $db->insert('dle_post_extras_cats', [
                 'news_id' => $lastID,
-                'cat_id' => $category_id
+                'cat_id' => $section
             ]);
-        }, $categories);
+        }
 
         file_put_contents($config['log'], date('H:i d-m-Y')." | $title" . PHP_EOL, FILE_APPEND);
         sleep(1);
