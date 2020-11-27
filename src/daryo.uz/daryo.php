@@ -40,6 +40,18 @@ $contents = $section->find('li');
 for ($i = (count($contents) - 1); $i >= 0; $i--) {
 
     try{
+        $title = $contents[$i]->find('div.itemTitle', 0);
+        $title = html_entity_decode($title->getElementByTagName('a')->plaintext);
+        $queryBuilder = $db->createQueryBuilder();
+        $checkTitle = $queryBuilder
+            ->select('alt_name')
+            ->from('dle_post')
+            ->where('alt_name = ?')
+            ->setParameter(0, $slugify->slugify($title))
+        ;
+
+        if ($checkTitle) continue;
+
         $category = $contents[$i]->find('div[class=itemCat]', 0);
         $category = explode(", ", trim($category->plaintext));
 
@@ -48,9 +60,6 @@ for ($i = (count($contents) - 1); $i >= 0; $i--) {
         $categories = array_map(function ($cat) use ($config) {
             return $config['categories'][$cat];
         }, $searchCategory);
-        
-        $title = $contents[$i]->find('div.itemTitle', 0);
-        $title = html_entity_decode($title->getElementByTagName('a')->plaintext);
 
         $description = $contents[$i]->find('div.postText', 0)->plaintext;
 
