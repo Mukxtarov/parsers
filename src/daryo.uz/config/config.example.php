@@ -8,6 +8,6 @@ return [
         'Sport' => 10,
         'Dunyo' => 9
     ],
-    'image_path' => __DIR__ . '/../data/images',
+    'image_path' => 'fullpath',
     'log' => __DIR__ . "/../data/log.txt"
 ];
