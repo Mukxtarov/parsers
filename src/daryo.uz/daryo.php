@@ -42,15 +42,15 @@ for ($i = (count($contents) - 1); $i >= 0; $i--) {
     try{
         $title = $contents[$i]->find('div.itemTitle', 0);
         $title = html_entity_decode($title->getElementByTagName('a')->plaintext);
-        $queryBuilder = $db->createQueryBuilder();
-        $checkTitle = $queryBuilder
-            ->select('alt_name')
-            ->from('dle_post')
-            ->where('alt_name = ?')
-            ->setParameter(0, $slugify->slugify($title))
-        ;
+        // $queryBuilder = $db->createQueryBuilder();
+        // $checkTitle = $queryBuilder
+        //     ->select('alt_name')
+        //     ->from('dle_post')
+        //     ->where('alt_name = ?')
+        //     ->setParameter(0, $slugify->slugify($title))
+        // ;
 
-        if ($checkTitle) continue;
+        // if ($checkTitle) continue;
 
         $category = $contents[$i]->find('div[class=itemCat]', 0);
         $category = explode(", ", trim($category->plaintext));
