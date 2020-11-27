@@ -98,16 +98,18 @@ for ($i = (count($contents) - 1); $i >= 0; $i--) {
             'news_id' => $db->lastInsertId(),
             'user_id' => '1'
         ]);
+
+        $lastID = $db->lastInsertId();
         
-        array_map(function ($category_id) use ($db) {
+        array_map(function ($category_id) use ($db, $lastID) {
             $db->insert('dle_post_extras_cats', [
-                'news_id' => $db->lastInsertId(),
+                'news_id' => $lastID,
                 'cat_id' => $category_id
             ]);
         }, $categories);
 
         file_put_contents($config['log'], date('H:i d-m-Y')." | $title" . PHP_EOL, FILE_APPEND);
-
+        sleep(1);
     } catch(Exception $e) {
         file_put_contents($config['log'], date('H:i d-m-Y')." | ". $e->getMessage() . PHP_EOL, FILE_APPEND);
         echo "An error occurred while downloading the file";
